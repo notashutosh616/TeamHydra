@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ls ~/.claude/plugins/marketplaces/claude-plugins-official/plugins/ | head -20)",
+      "Read(//Users/ashutosh/.claude/plugins/marketplaces/claude-plugins-official/external_plugins/**)",
+      "Bash(claude plugin *)",
+      "Read(//Users/ashutosh/.claude/plugins/cache/ui-ux-pro-max-skill/ui-ux-pro-max/2.5.0/.claude/skills/ui-ux-pro-max/**)",
+      "Bash(python3 scripts/search.py \"glassmorphism dark mode bonfire warm glow\" --domain style -n 3)",
+      "mcp__magic__21st_magic_component_inspiration",
+      "Bash(npm run *)",
+      "Bash(curl -s http://localhost:5173/)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:5173/src/main.jsx)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:5173/src/data/content.js)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:5173/assets/member1.svg)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:5173/favicon.svg)"
+    ]
+  }
+}

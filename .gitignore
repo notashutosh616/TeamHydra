@@ -1,0 +1,17 @@
+node_modules
+dist
+dist-ssr
+*.local
+
+# Env — keep secrets out of git (but track the example)
+.env
+.env.*
+!.env.example
+
+.DS_Store
+.vite
+
+# Editor
+.vscode/*
+!.vscode/extensions.json
+.idea

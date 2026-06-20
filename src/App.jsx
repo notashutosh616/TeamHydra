@@ -1,0 +1,45 @@
+import { useEffect } from 'react'
+import { Routes, Route, useLocation } from 'react-router-dom'
+import { MotionConfig, AnimatePresence, motion, useScroll, useSpring } from 'framer-motion'
+import Background from './components/Background'
+import Home from './pages/Home'
+import AllMemories from './pages/AllMemories'
+
+function ScrollProgress() {
+  const { scrollYProgress } = useScroll()
+  const scaleX = useSpring(scrollYProgress, { stiffness: 120, damping: 30, mass: 0.4 })
+  return (
+    <motion.div
+      style={{ scaleX }}
+      className="fixed left-0 top-0 z-[60] h-[3px] w-full origin-left bg-gradient-to-r from-hydra via-ember to-hydra"
+      aria-hidden="true"
+    />
+  )
+}
+
+// Jump to the top whenever the route changes.
+function ScrollToTop() {
+  const { pathname } = useLocation()
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'auto' })
+  }, [pathname])
+  return null
+}
+
+export default function App() {
+  const location = useLocation()
+  return (
+    // reducedMotion="user" makes Framer Motion honour prefers-reduced-motion globally
+    <MotionConfig reducedMotion="user">
+      <Background />
+      <ScrollProgress />
+      <ScrollToTop />
+      <AnimatePresence mode="wait">
+        <Routes location={location} key={location.pathname}>
+          <Route path="/" element={<Home />} />
+          <Route path="/memories" element={<AllMemories />} />
+        </Routes>
+      </AnimatePresence>
+    </MotionConfig>
+  )
+}

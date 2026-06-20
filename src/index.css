@@ -1,0 +1,118 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  /* Respect users who prefer less motion */
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+    }
+  }
+
+  body {
+    @apply bg-midnight-800 text-ink font-body antialiased;
+    /* Balanced twilight base with warm + cool colour washes (not pitch black) */
+    background-color: #232e47;
+    background-image:
+      radial-gradient(1200px 820px at 50% -8%, rgba(251, 191, 36, 0.16), transparent 60%),
+      radial-gradient(960px 720px at 86% 16%, rgba(52, 211, 153, 0.14), transparent 60%),
+      radial-gradient(1000px 900px at 8% 84%, rgba(129, 140, 248, 0.13), transparent 62%),
+      linear-gradient(180deg, #263150 0%, #232e47 45%, #1f2940 100%);
+    background-attachment: fixed;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background: rgba(251, 191, 36, 0.3);
+    color: #fff;
+  }
+
+  /* Themed scrollbar */
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #1f2940;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #34d399, #fbbf24);
+    border-radius: 999px;
+    border: 2px solid #1f2940;
+  }
+
+  /* Visible focus rings for keyboard users (accessibility) */
+  :focus-visible {
+    outline: 2px solid #fbbf24;
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+}
+
+@layer components {
+  /* Frosted glass surface used across cards & panels */
+  .glass {
+    background: rgba(255, 255, 255, 0.06);
+    backdrop-filter: blur(18px) saturate(140%);
+    -webkit-backdrop-filter: blur(18px) saturate(140%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  /* Gradient text used for accents on headings */
+  .text-gradient {
+    background-image: linear-gradient(120deg, #6ee7b7 0%, #34d399 35%, #fbbf24 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* Flowing animated gradient text (used on the hero title) */
+  .text-gradient-flow {
+    background-image: linear-gradient(
+      110deg,
+      #6ee7b7 0%,
+      #34d399 25%,
+      #fbbf24 50%,
+      #34d399 75%,
+      #6ee7b7 100%
+    );
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    @apply animate-gradient-pan;
+  }
+
+  /* Thin gradient hairline divider */
+  .hairline {
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(52, 211, 153, 0.5),
+      rgba(251, 191, 36, 0.5),
+      transparent
+    );
+  }
+}
+
+/* Tabular numerals for the live counter so digits don't jitter */
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
