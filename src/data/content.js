@@ -160,7 +160,7 @@ export const content = {
   //       (tweak lat/lon to nudge a pin; city/note are just the labels)
   // ──────────────────────────────────────────────────────────────────────────
   india: {
-    kicker: '5 states, 1 team',
+    kicker: '5 cities, 1 team',
     heading: 'Hydra Across India',
     subheading: 'Alag-alag kone se aaye, Bhopal me takra gaye — yahin Team Hydra bana.',
     origin: {
@@ -175,7 +175,7 @@ export const content = {
       { name: 'Ashutosh', nickname: 'Dhongi', city: 'Satna, MP', lat: 24.58, lon: 80.83, accent: '#34D399', labelDx: 0, labelDy: -14, labelAnchor: 'middle', note: 'Satna se Bhopal — dhongi-giri ab all-India level pe.' },
       { name: 'Shivam', nickname: 'Bihari', city: 'Chhapra, Bihar', lat: 25.78, lon: 84.73, accent: '#34D399', labelDx: 7, labelDy: -13, labelAnchor: 'start', note: 'Chhapra ka launda, argument ka aajeevan champion.' },
       { name: 'Sujal', nickname: 'Suzzi', city: 'Guwahati, Assam', lat: 26.1445, lon: 91.7362, accent: '#34D399', labelDx: -13, labelDy: 3, labelAnchor: 'end', note: 'Sabse door se aaya — soft awaaz, deadly roast.' },
-      { name: 'Devendra', nickname: 'Dhote', city: 'Nagpur, Maharashtra', lat: 21.1458, lon: 79.0882, accent: '#34D399', labelDx: 0, labelDy: 20, labelAnchor: 'middle', note: 'Nagpur ki orange aur iska chill — dono famous.' },
+      { name: 'Devendra', nickname: 'Dhote', city: 'Betul, MP', lat: 21.9012, lon: 77.9010, accent: '#34D399', labelDx: 0, labelDy: 20, labelAnchor: 'middle', note: 'Betul ka jungle aur iska chill — dono famous.' },
       { name: 'Sumit', nickname: 'Bhabhora', city: 'Ghazipur, UP', lat: 25.588, lon: 83.5776, accent: '#34D399', labelDx: 0, labelDy: 20, labelAnchor: 'middle', note: 'Ghazipur se Bhopal — raaste me aadha saaman gira diya.' },
     ],
   },
