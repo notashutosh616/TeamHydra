@@ -23,9 +23,10 @@ export default function LoadingScreen() {
     if (!show) return
     pauseScroll()
     document.body.style.overflow = 'hidden'
-    const hold = reduce ? 1000 : 2700
+    const hold = reduce ? 2400 : 5000
     const t = setTimeout(() => setShow(false), hold)
-    const rot = setInterval(() => setMi((i) => (i + 1) % MESSAGES.length), 700)
+    // ~1.2s per caption so each funny line is comfortably readable
+    const rot = setInterval(() => setMi((i) => (i + 1) % MESSAGES.length), 1200)
     return () => {
       clearTimeout(t)
       clearInterval(rot)
@@ -104,7 +105,7 @@ export default function LoadingScreen() {
                 className="h-full rounded-full bg-gradient-to-r from-hydra to-ember"
                 initial={{ width: '0%' }}
                 animate={{ width: '100%' }}
-                transition={{ duration: reduce ? 0.9 : 2.4, ease: 'easeInOut' }}
+                transition={{ duration: reduce ? 1.8 : 4.7, ease: 'easeInOut' }}
               />
             </div>
           </motion.div>
