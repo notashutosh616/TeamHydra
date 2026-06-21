@@ -93,6 +93,21 @@ export default function MemberCard({ member, index }) {
             />
           )}
 
+          {/* Fiery ember edge on hover — the card "catches fire" */}
+          {hovered && !reduce && (
+            <motion.div
+              aria-hidden
+              className="pointer-events-none absolute inset-0 z-20 rounded-[28px]"
+              style={{
+                border: `1.5px solid ${accent}`,
+                boxShadow: `0 0 22px color-mix(in srgb, ${accent} 70%, transparent), inset 0 0 16px color-mix(in srgb, ${accent} 35%, transparent)`,
+              }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: [0.4, 0.9, 0.55, 1, 0.65] }}
+              transition={{ duration: 1.1, repeat: Infinity, repeatType: 'mirror', ease: 'easeInOut' }}
+            />
+          )}
+
           {/* Photo */}
           <div className="relative aspect-[4/5] overflow-hidden">
             <img

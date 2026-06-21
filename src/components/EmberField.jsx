@@ -50,7 +50,7 @@ export default function EmberField() {
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
 
       const isMobile = w < 640
-      const count = Math.min(isMobile ? 38 : 92, Math.round((w * h) / 20000))
+      const count = Math.min(isMobile ? 24 : 58, Math.round((w * h) / 30000))
       embers = Array.from({ length: count }, () => spawn(true))
     }
 

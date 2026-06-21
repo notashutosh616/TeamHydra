@@ -11,9 +11,6 @@
 //     2. Point to them below like:   '/assets/your-file-name.jpg'
 //        (the path ALWAYS starts with /assets/ )
 //
-//   Placeholder images (the nice gradient ones) live in public/assets/ already
-//   so the site looks good before you add real photos. Replace them whenever.
-//
 // ════════════════════════════════════════════════════════════════════════════
 
 export const content = {
@@ -30,35 +27,27 @@ export const content = {
     kicker: 'Est. 2022 · Attendance kam, yaadein zyada',
     title: 'Team Hydra',
     tagline: 'Paanch dimaag, ek braincell. Together since forever.',
-    // Shown under the big day-count number → "1389 din ho gaye ek dusre ko..."
     counterLabel: 'din ho gaye ek dusre ko jhelte hue 😩❤️',
-    scrollHint: 'Neeche aa', // little label on the scroll-down arrow
+    scrollHint: 'Neeche aa',
   },
 
   // ──────────────────────────────────────────────────────────────────────────
   //  ★ THEME EXTRAS — loading screen, sound, and the hidden easter egg
-  //    (Tip: click the glowing Hydra logo 5 times to find the secret!)
+  //    (Tip: click the bonfire 5 times to find the secret!)
   // ──────────────────────────────────────────────────────────────────────────
   ui: {
-    // These rotate one-by-one on the first-visit loading screen:
     loaderMessages: [
       'Chai ban rahi hai... ruk',
       'Hydra ko jaga rahe hain...',
       'Proxy lagayi jaa rahi hai...',
       'Mess se bhaag ke aa rahe hain...',
     ],
-    soundLabel: 'Alaav', // label on the ambient campfire-sound toggle
+    soundLabel: 'Alaav',
     easterEgg: 'Oye! 5 baar click kar diya? Tu bhi utna hi free hai jitne hum the in 4 saalon me 😂🐍',
   },
 
   // ──────────────────────────────────────────────────────────────────────────
-  //  ③ THE CREW  —  the 5 member cards (heart of the site)
-  //     Each friend is one HEAD of the 5-headed Hydra 🐍
-  //     • nickname:   their Hydra alias
-  //     • stat:       the funny tag under the nickname (give everyone a diff one)
-  //     • accent:     their signature glow colour (warm bonfire palette)
-  //     • funnyLine:  the Hinglish one-liner
-  //     • message:    the handwritten (Caveat font) personal note — edit later
+  //  ③ THE CREW  —  the 5 member cards
   // ──────────────────────────────────────────────────────────────────────────
   crew: {
     kicker: 'Apni toli',
@@ -70,8 +59,8 @@ export const content = {
         name: 'Ashutosh',
         nickname: 'Dhongi',
         stat: 'Attendance: 12%',
-        accent: '#34D399', // emerald
-        photo: '/assets/member1.svg', // 👉 replace with '/assets/member1.jpg'
+        accent: '#34D399',
+        photo: '/assets/member1.svg',
         funnyLine:
           'Bahar se sant, andar se mastermind. Chehra masoom, dimaag criminal — Hydra ka asli dhongi.',
         message: 'Yahan apna personal message daalna hai…',
@@ -81,8 +70,8 @@ export const content = {
         name: 'Shivam',
         nickname: 'Bihari',
         stat: 'Chai consumed: ∞',
-        accent: '#FBBF24', // amber
-        photo: '/assets/member2.svg', // 👉 replace with '/assets/member2.jpg'
+        accent: '#FBBF24',
+        photo: '/assets/member2.svg',
         funnyLine:
           '2 ghante argument karega, haarega bhi, phir bhi tujhe chai pila ke aayega. Loyalty ka dusra naam.',
         message: 'Yahan apna personal message daalna hai…',
@@ -92,8 +81,8 @@ export const content = {
         name: 'Sumit',
         nickname: 'Bhabhora',
         stat: 'Padhai: loading…',
-        accent: '#FB923C', // firelight orange
-        photo: '/assets/member3.svg', // 👉 replace with '/assets/member3.jpg'
+        accent: '#FB923C',
+        photo: '/assets/member3.svg',
         funnyLine:
           'Phone girata hai, chaabi girata hai, marks girata hai, par squad kabhi nahi girne deta.',
         message: 'Yahan apna personal message daalna hai…',
@@ -103,8 +92,8 @@ export const content = {
         name: 'Devendra',
         nickname: 'Dhote',
         stat: 'Mood: hamesha bhookha',
-        accent: '#6EE7B7', // soft mint emerald
-        photo: '/assets/member4.svg', // 👉 replace with '/assets/member4.jpg'
+        accent: '#6EE7B7',
+        photo: '/assets/member4.svg',
         funnyLine:
           'Kamre ka sabse chill banda… jab tak bill na aaye. Bill aate hi washroom yaad aa jaata hai.',
         message: 'Yahan apna personal message daalna hai…',
@@ -114,8 +103,8 @@ export const content = {
         name: 'Sujal',
         nickname: 'Suzzi',
         stat: 'Backlog: classified',
-        accent: '#FCD34D', // soft gold
-        photo: '/assets/member5.svg', // 👉 replace with '/assets/member5.jpg'
+        accent: '#FCD34D',
+        photo: '/assets/member5.svg',
         funnyLine:
           'Naam cute, banda khatarnaak. Sabse soft awaaz, sabse deadly roast — group ka chupa rustam.',
         message: 'Yahan apna personal message daalna hai…',
@@ -125,43 +114,33 @@ export const content = {
 
   // ──────────────────────────────────────────────────────────────────────────
   //  ④ OUR MEMORIES  —  photo + video gallery (data comes from Supabase)
-  //     The `items` array below is reference/seed only — see supabase/setup.sql.
-  //     Headings, buttons and the empty-state text below DO control the UI.
   // ──────────────────────────────────────────────────────────────────────────
   memories: {
     kicker: 'Throwback',
     heading: 'Yaadein (aur thoda blackmail material)',
     subheading: 'Blurry photos, screenshots, aur woh raatein jinki kasam nahi kha sakte.',
-
-    previewCount: 6, // how many show on the home page before the "see all" button
-
-    // Button + little note under it on the home page ( {count} = how many memories )
+    previewCount: 6,
     seeAllLabel: 'Saari yaadein dekh',
     seeAllNote: '{count} yaadein records me — tap karke poori gallery dekh',
-
-    // Shown when the gallery has nothing in it yet:
     empty: {
       title: 'Abhi koi yaad nahi hai yahan…',
       hint: 'Kisi ne photo daali hi nahi 🙄 daal de bhai.',
       hintSetup: 'Supabase connect kar (.env) aur supabase/setup.sql chala — phir yaadein aayengi.',
       filtered: 'Is filter me kuch nahi mila — doosra try kar.',
     },
-
-    // The dedicated /memories ("see all") page:
     archive: {
       eyebrow: 'Team Hydra · Purana saman',
-      titleLead: 'Saari', // first word (plain)
-      titleAccent: 'Yaadein', // second word (gradient)
+      titleLead: 'Saari',
+      titleAccent: 'Yaadein',
       subtitle: 'Har pal ek hi jagah — {count} yaadein aur ginti jaari.',
       back: 'Wapas chal',
     },
-
     items: [
       { type: 'image', src: '/assets/memory1.svg', caption: 'Day one of forever.', span: 'wide' },
       { type: 'image', src: '/assets/memory2.svg', caption: 'Canteen council meeting.' },
       {
         type: 'video',
-        src: '/assets/memory-clip.mp4', // 👉 add your real .mp4 here
+        src: '/assets/memory-clip.mp4',
         poster: '/assets/memory3.svg',
         caption: 'Hostel anthem, unplugged.',
       },
@@ -175,8 +154,34 @@ export const content = {
   },
 
   // ──────────────────────────────────────────────────────────────────────────
-  //  ⑤ WHERE WE GO NEXT  —  closing section
-  //     headedTo: where each person is headed next (funny placeholder for now)
+  //  ⑤ HYDRA ACROSS INDIA — where each friend's home city is (map section)
+  //     • origin = the college where everyone met (the amber bonfire marker)
+  //     • each friend has a HOME city. lat/lon place the glowing pin on the map
+  //       (tweak lat/lon to nudge a pin; city/note are just the labels)
+  // ──────────────────────────────────────────────────────────────────────────
+  india: {
+    kicker: '5 states, 1 team',
+    heading: 'Hydra Across India',
+    subheading: 'Alag-alag kone se aaye, Bhopal me takra gaye — yahin Team Hydra bana.',
+    origin: {
+      label: 'Oriental College of Technology',
+      city: 'Bhopal, MP',
+      tag: 'Adda No.1',
+      note: 'Yahin sab shuru hua — Team Hydra ka asli adda.',
+      lat: 23.2599,
+      lon: 77.4126,
+    },
+    friends: [
+      { name: 'Ashutosh', nickname: 'Dhongi', city: 'Satna, MP', lat: 24.58, lon: 80.83, accent: '#34D399', labelDx: 0, labelDy: -14, labelAnchor: 'middle', note: 'Satna se Bhopal — dhongi-giri ab all-India level pe.' },
+      { name: 'Shivam', nickname: 'Bihari', city: 'Chhapra, Bihar', lat: 25.78, lon: 84.73, accent: '#34D399', labelDx: 7, labelDy: -13, labelAnchor: 'start', note: 'Chhapra ka launda, argument ka aajeevan champion.' },
+      { name: 'Sujal', nickname: 'Suzzi', city: 'Guwahati, Assam', lat: 26.1445, lon: 91.7362, accent: '#34D399', labelDx: -13, labelDy: 3, labelAnchor: 'end', note: 'Sabse door se aaya — soft awaaz, deadly roast.' },
+      { name: 'Devendra', nickname: 'Dhote', city: 'Nagpur, Maharashtra', lat: 21.1458, lon: 79.0882, accent: '#34D399', labelDx: 0, labelDy: 20, labelAnchor: 'middle', note: 'Nagpur ki orange aur iska chill — dono famous.' },
+      { name: 'Sumit', nickname: 'Bhabhora', city: 'Ghazipur, UP', lat: 25.588, lon: 83.5776, accent: '#34D399', labelDx: 0, labelDy: 20, labelAnchor: 'middle', note: 'Ghazipur se Bhopal — raaste me aadha saaman gira diya.' },
+    ],
+  },
+
+  // ──────────────────────────────────────────────────────────────────────────
+  //  ⑥ WHERE WE GO NEXT  —  closing section
   // ──────────────────────────────────────────────────────────────────────────
   next: {
     kicker: 'Aage ka scene',
@@ -189,12 +194,11 @@ export const content = {
       { name: 'Devendra', headedTo: 'Status: ghar pe Maggi bana raha' },
       { name: 'Sujal', headedTo: 'Pata chalega toh bata dega' },
     ],
-    // The one heartfelt line (kept warm on purpose):
     closingLine: 'Raaste alag, dil ek. Team Hydra forever.',
   },
 
   // ──────────────────────────────────────────────────────────────────────────
-  //  ⑥ FOOTER
+  //  ⑦ FOOTER
   // ──────────────────────────────────────────────────────────────────────────
   footer: {
     brand: 'Team Hydra',

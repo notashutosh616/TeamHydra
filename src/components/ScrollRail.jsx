@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { motion, useScroll, useSpring } from 'framer-motion'
+import { motion, useScroll, useSpring, useTransform } from 'framer-motion'
 import { smoothScrollTo } from '../lib/smoothScroll'
 
 // A vertical "journey" timeline down the left edge (desktop only).
@@ -8,12 +8,14 @@ const STOPS = [
   { id: 'hero', label: 'Origin' },
   { id: 'crew', label: 'The Five' },
   { id: 'memories', label: 'Memories' },
+  { id: 'india', label: 'India' },
   { id: 'next', label: 'Onward' },
 ]
 
 export default function ScrollRail() {
   const { scrollYProgress } = useScroll()
   const fill = useSpring(scrollYProgress, { stiffness: 120, damping: 30, mass: 0.4 })
+  const emberTop = useTransform(fill, (v) => `${v * 100}%`)
   const [active, setActive] = useState('hero')
 
   useEffect(() => {
@@ -43,6 +45,11 @@ export default function ScrollRail() {
         <motion.div
           className="absolute left-1/2 top-0 w-px -translate-x-1/2 origin-top bg-gradient-to-b from-hydra to-ember"
           style={{ height: '100%', scaleY: fill }}
+        />
+        {/* an ember travelling down the thread as you scroll */}
+        <motion.span
+          className="absolute left-1/2 z-10 h-2.5 w-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-ember"
+          style={{ top: emberTop, boxShadow: '0 0 12px 3px rgba(251,191,36,0.8)' }}
         />
 
         {STOPS.map((s) => {

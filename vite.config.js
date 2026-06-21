@@ -16,6 +16,7 @@ export default defineConfig({
           react: ['react', 'react-dom', 'react-router-dom'],
           motion: ['framer-motion'],
           vendor: ['@supabase/supabase-js', 'lenis'],
+          map: ['react-simple-maps', 'd3-geo', 'topojson-client'],
         },
       },
     },

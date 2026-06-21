@@ -20,7 +20,6 @@ export default function Hero() {
   const reduce = useReducedMotion()
   const { hero } = content
 
-  // Split the title into characters for the staggered reveal.
   const title = hero.title.split('')
 
   return (
