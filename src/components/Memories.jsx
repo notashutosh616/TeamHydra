@@ -7,7 +7,7 @@ import Reveal from './Reveal'
 import { GalleryLoading, GalleryEmpty } from './GalleryStates'
 
 export default function Memories() {
-  const { memories } = content // headings + previewCount (copy stays in content.js)
+  const { memories } = content // headings + previewCount + copy (all in content.js)
   const { memories: items, loading, error } = useMemories()
 
   const previewCount = memories.previewCount ?? items.length
@@ -17,19 +17,15 @@ export default function Memories() {
   return (
     <section id="memories" className="relative px-5 py-24 sm:py-32">
       <div className="mx-auto max-w-content">
-        <SectionHeading kicker="Rewind" title={memories.heading} subtitle={memories.subheading} />
+        <SectionHeading kicker={memories.kicker} title={memories.heading} subtitle={memories.subheading} />
 
         <div className="mt-16">
           {loading ? (
             <GalleryLoading count={previewCount} />
           ) : total === 0 ? (
             <GalleryEmpty
-              title="No memories yet…"
-              hint={
-                error === 'not-configured'
-                  ? 'Connect Supabase (copy .env.example → .env) and run supabase/setup.sql to fill this gallery.'
-                  : 'Add your first row to the “memories” table in Supabase and it’ll appear here.'
-              }
+              title={memories.empty.title}
+              hint={error === 'not-configured' ? memories.empty.hintSetup : memories.empty.hint}
             />
           ) : (
             <>
@@ -37,9 +33,9 @@ export default function Memories() {
 
               {/* See all memories → dedicated gallery page */}
               <Reveal delay={0.1} className="mt-12 flex flex-col items-center gap-3">
-                <GlowButton to="/memories">See all memories</GlowButton>
+                <GlowButton to="/memories">{memories.seeAllLabel}</GlowButton>
                 <span className="text-xs tracking-wide text-slatey">
-                  {total} {total === 1 ? 'moment' : 'moments'} &amp; counting — tap to open the full gallery
+                  {memories.seeAllNote.replace('{count}', total)}
                 </span>
               </Reveal>
             </>

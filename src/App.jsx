@@ -1,7 +1,15 @@
 import { useEffect } from 'react'
 import { Routes, Route, useLocation } from 'react-router-dom'
 import { MotionConfig, AnimatePresence, motion, useScroll, useSpring } from 'framer-motion'
+import { PointerProvider } from './lib/pointer'
+import { EasterEggProvider } from './lib/easterEgg'
+import { useSmoothScroll, scrollToTopInstant } from './lib/smoothScroll'
 import Background from './components/Background'
+import EmberField from './components/EmberField'
+import CursorTrail from './components/CursorTrail'
+import SoundToggle from './components/SoundToggle'
+import EmberBurst from './components/EmberBurst'
+import LoadingScreen from './components/LoadingScreen'
 import Home from './pages/Home'
 import AllMemories from './pages/AllMemories'
 
@@ -17,29 +25,41 @@ function ScrollProgress() {
   )
 }
 
-// Jump to the top whenever the route changes.
+// Jump to the top whenever the route changes (works with Lenis too).
 function ScrollToTop() {
   const { pathname } = useLocation()
   useEffect(() => {
-    window.scrollTo({ top: 0, left: 0, behavior: 'auto' })
+    scrollToTopInstant()
   }, [pathname])
   return null
 }
 
 export default function App() {
+  useSmoothScroll() // buttery momentum scroll (desktop, non-reduced-motion)
   const location = useLocation()
+
   return (
     // reducedMotion="user" makes Framer Motion honour prefers-reduced-motion globally
     <MotionConfig reducedMotion="user">
-      <Background />
-      <ScrollProgress />
-      <ScrollToTop />
-      <AnimatePresence mode="wait">
-        <Routes location={location} key={location.pathname}>
-          <Route path="/" element={<Home />} />
-          <Route path="/memories" element={<AllMemories />} />
-        </Routes>
-      </AnimatePresence>
+      <PointerProvider>
+        <EasterEggProvider>
+          <Background />
+          <EmberField />
+          <ScrollProgress />
+          <ScrollToTop />
+          <CursorTrail />
+          <SoundToggle />
+          <EmberBurst />
+          <LoadingScreen />
+
+          <AnimatePresence mode="wait">
+            <Routes location={location} key={location.pathname}>
+              <Route path="/" element={<Home />} />
+              <Route path="/memories" element={<AllMemories />} />
+            </Routes>
+          </AnimatePresence>
+        </EasterEggProvider>
+      </PointerProvider>
     </MotionConfig>
   )
 }

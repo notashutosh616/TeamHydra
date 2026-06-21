@@ -10,7 +10,7 @@ export default function NextChapter() {
   return (
     <section id="next" className="relative px-5 py-24 sm:py-32">
       <div className="mx-auto max-w-3xl">
-        <SectionHeading kicker="The road ahead" title={next.heading} subtitle={next.subheading} />
+        <SectionHeading kicker={next.kicker} title={next.heading} subtitle={next.subheading} />
 
         {/* Destinations timeline */}
         <ul className="mt-14 space-y-4">

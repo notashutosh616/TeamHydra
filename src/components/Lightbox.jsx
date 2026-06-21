@@ -1,6 +1,7 @@
 import { useEffect, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useScrollLock } from '../lib/hooks'
+import { pauseScroll, resumeScroll } from '../lib/smoothScroll'
 
 const EASE = [0.16, 1, 0.3, 1]
 
@@ -16,6 +17,12 @@ function Icon({ path, className = 'h-6 w-6' }) {
 export default function Lightbox({ items, index, onClose, onNavigate }) {
   const open = index !== null && index >= 0
   useScrollLock(open)
+
+  // Pause Lenis momentum scrolling while the lightbox is open.
+  useEffect(() => {
+    if (open) pauseScroll()
+    return () => resumeScroll()
+  }, [open])
 
   const go = useCallback(
     (dir) => {

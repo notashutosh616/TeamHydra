@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react'
 import { motion } from 'framer-motion'
+import { content } from '../data/content'
 import { useMemories } from '../lib/useMemories'
 import MemoryGrid from '../components/MemoryGrid'
 import GlowButton from '../components/GlowButton'
@@ -8,6 +9,8 @@ import Reveal from '../components/Reveal'
 import { GalleryLoading, GalleryEmpty } from '../components/GalleryStates'
 
 const EASE = [0.16, 1, 0.3, 1]
+const copy = content.memories
+const archive = copy.archive
 
 export default function AllMemories() {
   const { memories: all, loading, error } = useMemories()
@@ -23,7 +26,7 @@ export default function AllMemories() {
   )
 
   const filters = [
-    { key: 'all', label: 'All' },
+    { key: 'all', label: 'Sab' },
     { key: 'image', label: 'Photos' },
     { key: 'video', label: 'Videos' },
   ]
@@ -48,22 +51,22 @@ export default function AllMemories() {
         {/* Top bar */}
         <div className="mb-10 flex items-center justify-between gap-4">
           <GlowButton to="/" variant="ghost" icon="back">
-            Back to Hydra
+            {archive.back}
           </GlowButton>
           <span className="hidden text-xs uppercase tracking-[0.22em] text-slatey sm:inline">
-            Team Hydra · The Archive
+            {archive.eyebrow}
           </span>
         </div>
 
         {/* Heading */}
         <Reveal>
           <h1 className="font-display text-4xl font-bold tracking-tight text-ink sm:text-6xl">
-            All <span className="text-gradient">Memories</span>
+            {archive.titleLead} <span className="text-gradient">{archive.titleAccent}</span>
           </h1>
         </Reveal>
         <Reveal delay={0.06}>
           <p className="mt-4 max-w-xl font-hand text-2xl text-ember-soft">
-            Har ek pal, ek hi jagah.{hasMemories ? ` ${counts.all} moments and growing.` : ''}
+            {archive.subtitle.replace('{count}', hasMemories ? counts.all : 0)}
           </p>
         </Reveal>
 
@@ -103,17 +106,12 @@ export default function AllMemories() {
             <GalleryLoading count={8} />
           ) : all.length === 0 ? (
             <GalleryEmpty
-              title="The archive is empty…"
-              hint={
-                error === 'not-configured'
-                  ? 'Connect Supabase (copy .env.example → .env) and run supabase/setup.sql to populate it.'
-                  : 'Add rows to the “memories” table in Supabase and they’ll show up here.'
-              }
+              title={copy.empty.title}
+              hint={error === 'not-configured' ? copy.empty.hintSetup : copy.empty.hint}
             />
           ) : items.length === 0 ? (
             <div className="grid place-items-center rounded-3xl glass py-24 text-center">
-              <p className="font-hand text-3xl text-ember-soft">Yeh shelf abhi khaali hai…</p>
-              <p className="mt-2 text-sm text-slatey">No {filter === 'video' ? 'videos' : 'photos'} yet — try another filter.</p>
+              <p className="font-hand text-3xl text-ember-soft">{copy.empty.filtered}</p>
             </div>
           ) : (
             <MemoryGrid key={filter} items={items} />
@@ -122,7 +120,7 @@ export default function AllMemories() {
 
         <div className="mt-14 flex justify-center">
           <GlowButton to="/" variant="ghost" icon="back">
-            Back to Hydra
+            {archive.back}
           </GlowButton>
         </div>
       </div>

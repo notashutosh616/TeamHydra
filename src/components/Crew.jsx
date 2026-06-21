@@ -7,7 +7,7 @@ export default function Crew() {
   return (
     <section id="crew" className="relative px-5 py-24 sm:py-32">
       <div className="mx-auto max-w-content">
-        <SectionHeading kicker="Meet the five" title={crew.heading} subtitle={crew.subheading} />
+        <SectionHeading kicker={crew.kicker} title={crew.heading} subtitle={crew.subheading} />
 
         {/*
           5 cards. On large screens we use a 6-column grid where every card

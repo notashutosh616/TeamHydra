@@ -116,3 +116,48 @@
 .tabular-nums {
   font-variant-numeric: tabular-nums;
 }
+
+/* Lenis smooth-scroll plumbing (prevents conflict with scroll-behavior) */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+/* Custom cursor: hide the native cursor only while the ember cursor is active.
+   Falls back to the normal cursor on touch devices. */
+.cursor-none,
+.cursor-none * {
+  cursor: none !important;
+}
+@media (hover: none), (pointer: coarse) {
+  .cursor-none,
+  .cursor-none * {
+    cursor: auto !important;
+  }
+}
+
+/* Hydra eyes flicker like firelight (auto-disabled under reduced-motion) */
+@keyframes hydra-eye-flicker {
+  0%,
+  100% {
+    opacity: 0.6;
+  }
+  45% {
+    opacity: 1;
+  }
+  70% {
+    opacity: 0.75;
+  }
+}
+.hydra-eye {
+  animation: hydra-eye-flicker 2.4s ease-in-out infinite;
+}
