@@ -1,9 +1,11 @@
 import { content } from '../data/content'
+import { useMembers } from '../lib/useMembers'
 import SectionHeading from './SectionHeading'
 import MemberCard from './MemberCard'
 
 export default function Crew() {
   const { crew } = content
+  const members = useMembers()
   return (
     <section id="crew" className="relative px-5 py-24 sm:py-32">
       <div className="mx-auto max-w-content">
@@ -18,7 +20,7 @@ export default function Crew() {
           className="mt-16 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-6
                      [&>li]:lg:col-span-2 [&>li:nth-child(4)]:lg:col-start-2"
         >
-          {crew.members.map((member, i) => (
+          {members.map((member, i) => (
             <MemberCard key={member.id} member={member} index={i} />
           ))}
         </ul>

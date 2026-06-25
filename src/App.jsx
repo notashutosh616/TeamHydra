@@ -12,6 +12,8 @@ import EmberBurst from './components/EmberBurst'
 import LoadingScreen from './components/LoadingScreen'
 import Home from './pages/Home'
 import AllMemories from './pages/AllMemories'
+import Admin from './pages/Admin'
+import { AuthProvider } from './lib/auth'
 
 function ScrollProgress() {
   const { scrollYProgress } = useScroll()
@@ -41,6 +43,7 @@ export default function App() {
   return (
     // reducedMotion="user" makes Framer Motion honour prefers-reduced-motion globally
     <MotionConfig reducedMotion="user">
+      <AuthProvider>
       <PointerProvider>
         <EasterEggProvider>
           <Background />
@@ -56,10 +59,12 @@ export default function App() {
             <Routes location={location} key={location.pathname}>
               <Route path="/" element={<Home />} />
               <Route path="/memories" element={<AllMemories />} />
+              <Route path="/admin" element={<Admin />} />
             </Routes>
           </AnimatePresence>
         </EasterEggProvider>
       </PointerProvider>
+      </AuthProvider>
     </MotionConfig>
   )
 }
