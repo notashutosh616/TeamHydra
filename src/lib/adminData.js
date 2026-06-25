@@ -1,25 +1,26 @@
 import { supabase } from './supabase'
 
 export const BUCKET = 'hydra-media'
+export const AUDIO_BUCKET = 'hydra-audio'
 
 // ── Storage ────────────────────────────────────────────────────────────────
-export async function uploadToBucket(file, folder = 'media') {
+export async function uploadToBucket(file, folder = 'media', bucket = BUCKET) {
   const ext = (file.name.split('.').pop() || 'bin').toLowerCase()
   const path = `${folder}/${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`
-  const { error } = await supabase.storage.from(BUCKET).upload(path, file, {
+  const { error } = await supabase.storage.from(bucket).upload(path, file, {
     cacheControl: '3600',
     upsert: false,
     contentType: file.type || undefined,
   })
   if (error) throw error
-  const { data } = supabase.storage.from(BUCKET).getPublicUrl(path)
+  const { data } = supabase.storage.from(bucket).getPublicUrl(path)
   return { url: data.publicUrl, path }
 }
 
 // Recover the storage path from a public URL so we can delete the file.
-export function storagePathFromUrl(url) {
+export function storagePathFromUrl(url, bucket = BUCKET) {
   if (!url) return null
-  const marker = `/storage/v1/object/public/${BUCKET}/`
+  const marker = `/storage/v1/object/public/${bucket}/`
   const i = url.indexOf(marker)
   return i >= 0 ? url.slice(i + marker.length) : null
 }
@@ -68,4 +69,24 @@ export async function updateMember(id, patch) {
   const { data, error } = await supabase.from('members').update(patch).eq('id', id).select().single()
   if (error) throw error
   return data
+}
+
+// ── Settings / background music ──────────────────────────────────────────
+export async function setSetting(key, value) {
+  const { error } = await supabase
+    .from('settings')
+    .upsert({ key, value, updated_at: new Date().toISOString() }, { onConflict: 'key' })
+  if (error) throw error
+}
+
+// Upload an audio file to the audio bucket and set it as the background music.
+export async function uploadAudioTrack(file, prevUrl = null) {
+  const { url } = await uploadToBucket(file, 'tracks', AUDIO_BUCKET)
+  await setSetting('background_music', url)
+  // best-effort cleanup of the previous track file
+  if (prevUrl && prevUrl !== url) {
+    const old = storagePathFromUrl(prevUrl, AUDIO_BUCKET)
+    if (old) await supabase.storage.from(AUDIO_BUCKET).remove([old]).catch(() => {})
+  }
+  return url
 }

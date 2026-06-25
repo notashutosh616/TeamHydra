@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import { useAuth } from '../lib/auth'
 import MemoriesManager from '../components/admin/MemoriesManager'
 import MembersManager from '../components/admin/MembersManager'
+import MusicManager from '../components/admin/MusicManager'
 
 const EASE = [0.16, 1, 0.3, 1]
 
@@ -112,9 +113,11 @@ export default function Admin() {
     ? [
         { key: 'memories', label: 'Memories' },
         { key: 'members', label: 'Members' },
+        { key: 'music', label: 'Music' },
       ]
     : [{ key: 'memories', label: 'Memories' }]
-  const activeTab = tab === 'members' && !isAdmin ? 'memories' : tab
+  // Any non-Memories tab is admin-only.
+  const activeTab = tab !== 'memories' && !isAdmin ? 'memories' : tab
 
   return (
     <Shell>
@@ -171,7 +174,13 @@ export default function Admin() {
         </div>
 
         <div className="mt-8">
-          {activeTab === 'members' && isAdmin ? <MembersManager /> : <MemoriesManager />}
+          {activeTab === 'members' && isAdmin ? (
+            <MembersManager />
+          ) : activeTab === 'music' && isAdmin ? (
+            <MusicManager />
+          ) : (
+            <MemoriesManager />
+          )}
         </div>
       </div>
     </Shell>

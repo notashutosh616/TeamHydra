@@ -1,14 +1,31 @@
 import { useEffect, useRef, useState } from 'react'
 import { motion } from 'framer-motion'
 import { content } from '../data/content'
+import { fetchMusicUrl } from '../lib/settings'
 
-// A tiny synthesized campfire: looping filtered brown-noise "roar" plus
-// randomly scheduled "crackle" pops. No audio file required. Off by default;
-// audio only starts on the user's click (respects autoplay policies).
+// The campfire/music button.
+//  • If an admin has set a background-music track in Supabase, it plays THAT
+//    (looped) on click.
+//  • Otherwise it falls back to a synthesized campfire crackle (Web Audio).
+//  • Never autoplays — sound starts only after the user clicks.
 export default function SoundToggle() {
   const [on, setOn] = useState(false)
+  const [musicUrl, setMusicUrl] = useState(null)
+  const audioRef = useRef(null)
   const ref = useRef({ ctx: null, master: null, crackleTimer: null, started: false })
 
+  // Fetch the current track URL on load (no playback yet).
+  useEffect(() => {
+    let active = true
+    fetchMusicUrl().then((u) => {
+      if (active && u) setMusicUrl(u)
+    })
+    return () => {
+      active = false
+    }
+  }, [])
+
+  // ── Synthesized campfire (fallback) ──
   const buildEngine = () => {
     const AC = window.AudioContext || window.webkitAudioContext
     if (!AC) return null
@@ -17,7 +34,6 @@ export default function SoundToggle() {
     master.gain.value = 0
     master.connect(ctx.destination)
 
-    // Brown-noise buffer (the steady fire roar)
     const len = ctx.sampleRate * 2
     const buffer = ctx.createBuffer(1, len, ctx.sampleRate)
     const data = buffer.getChannelData(0)
@@ -41,7 +57,6 @@ export default function SoundToggle() {
     ref.current.ctx = ctx
     ref.current.master = master
 
-    // Crackle scheduler
     const crackle = () => {
       const t = ctx.currentTime
       const src = ctx.createBufferSource()
@@ -67,9 +82,7 @@ export default function SoundToggle() {
     return ctx
   }
 
-  const toggle = async () => {
-    const next = !on
-    setOn(next)
+  const playSynth = async (next) => {
     const engine = ref.current
     if (next) {
       if (!engine.started) {
@@ -88,10 +101,38 @@ export default function SoundToggle() {
     }
   }
 
+  // ── Uploaded track (preferred) ──
+  const playFile = async (next) => {
+    if (!audioRef.current) {
+      const a = new Audio(musicUrl)
+      a.loop = true
+      a.volume = 0.5
+      a.preload = 'auto'
+      audioRef.current = a
+    }
+    if (next) {
+      try {
+        await audioRef.current.play()
+      } catch {
+        /* autoplay blocked — ignored; this only runs on user click anyway */
+      }
+    } else {
+      audioRef.current.pause()
+    }
+  }
+
+  const toggle = async () => {
+    const next = !on
+    setOn(next)
+    if (musicUrl) await playFile(next)
+    else await playSynth(next)
+  }
+
   useEffect(() => {
     return () => {
       clearTimeout(ref.current.crackleTimer)
       ref.current.ctx?.close?.()
+      audioRef.current?.pause()
     }
   }, [])
 
@@ -102,7 +143,6 @@ export default function SoundToggle() {
       aria-label={`${content.ui?.soundLabel ?? 'Campfire'} sound ${on ? 'on' : 'off'}`}
       className="group fixed bottom-5 right-5 z-40 flex items-center gap-2 rounded-full glass px-3.5 py-2.5 text-xs font-semibold text-ink shadow-glass transition-colors hover:text-ember sm:bottom-6 sm:right-6"
     >
-      {/* equalizer bars */}
       <span className="flex h-4 items-end gap-[2px]" aria-hidden="true">
         {[0, 1, 2, 3].map((i) => (
           <motion.span
