@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { fetchMemoriesAdmin, addMemory, deleteMemory } from '../../lib/adminData'
+import { useAuth } from '../../lib/auth'
 
 function Note({ msg }) {
   if (!msg) return null
@@ -9,6 +10,7 @@ function Note({ msg }) {
 }
 
 export default function MemoriesManager() {
+  const { isAdmin } = useAuth()
   const [items, setItems] = useState([])
   const [loading, setLoading] = useState(true)
   const [file, setFile] = useState(null)
@@ -62,7 +64,11 @@ export default function MemoriesManager() {
       {/* Upload card */}
       <div className="glass rounded-3xl p-5 sm:p-6">
         <h3 className="font-display text-lg font-bold text-ink">Nayi yaad add kar</h3>
-        <p className="mt-1 text-sm text-slatey">Photo ya video chun, caption likh, upload daba. Bas.</p>
+        <p className="mt-1 text-sm text-slatey">
+          {isAdmin
+            ? 'Photo ya video chun, caption likh, upload daba. Bas.'
+            : 'Photo chun, caption likh, upload daba. (Delete sirf admin kar sakta hai.)'}
+        </p>
 
         <div className="mt-4 flex flex-col gap-3">
           <label className="flex cursor-pointer items-center justify-between gap-3 rounded-xl border border-dashed border-white/15 bg-white/5 px-4 py-3 text-sm text-ink transition-colors hover:border-ember/50">
@@ -71,7 +77,7 @@ export default function MemoriesManager() {
             <input
               ref={fileRef}
               type="file"
-              accept="image/*,video/*"
+              accept={isAdmin ? 'image/*,video/*' : 'image/*'}
               className="hidden"
               onChange={(e) => setFile(e.target.files?.[0] || null)}
             />
@@ -132,15 +138,17 @@ export default function MemoriesManager() {
                 {it.caption && (
                   <p className="truncate px-2 py-1.5 text-[11px] text-slatey">{it.caption}</p>
                 )}
-                <button
-                  onClick={() => onDelete(it)}
-                  aria-label="Delete memory"
-                  className="absolute right-2 top-2 grid h-8 w-8 place-items-center rounded-full bg-midnight-900/80 text-ember-soft opacity-0 backdrop-blur transition-opacity hover:bg-red-500/80 hover:text-white group-hover:opacity-100"
-                >
-                  <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M3 6h18" /><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" /><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
-                  </svg>
-                </button>
+                {isAdmin && (
+                  <button
+                    onClick={() => onDelete(it)}
+                    aria-label="Delete memory"
+                    className="absolute right-2 top-2 grid h-8 w-8 place-items-center rounded-full bg-midnight-900/80 text-ember-soft opacity-0 backdrop-blur transition-opacity hover:bg-red-500/80 hover:text-white group-hover:opacity-100"
+                  >
+                    <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M3 6h18" /><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" /><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
+                    </svg>
+                  </button>
+                )}
                 <span className="absolute left-2 top-2 rounded-full bg-midnight-900/70 px-2 py-0.5 text-[10px] uppercase tracking-wide text-ink backdrop-blur">
                   {it.type}
                 </span>
