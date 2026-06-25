@@ -2,6 +2,7 @@ import { useEffect, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useScrollLock } from '../lib/hooks'
 import { pauseScroll, resumeScroll } from '../lib/smoothScroll'
+import { youtubeEmbed } from '../lib/youtube'
 
 const EASE = [0.16, 1, 0.3, 1]
 
@@ -103,7 +104,18 @@ export default function Lightbox({ items, index, onClose, onNavigate }) {
             className="relative z-10 flex max-h-[88vh] w-full max-w-5xl flex-col items-center"
           >
             <div className="overflow-hidden rounded-2xl border border-white/10 shadow-glass">
-              {item.type === 'video' ? (
+              {item.type === 'youtube' ? (
+                <div className="aspect-video w-[min(92vw,960px)] bg-black">
+                  <iframe
+                    src={youtubeEmbed(item.src, '?autoplay=1&rel=0&playsinline=1')}
+                    title={item.caption || 'Team Hydra video'}
+                    className="h-full w-full"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowFullScreen
+                    referrerPolicy="strict-origin-when-cross-origin"
+                  />
+                </div>
+              ) : item.type === 'video' ? (
                 <video
                   src={item.src}
                   poster={item.poster}

@@ -135,22 +135,8 @@ export const content = {
       subtitle: 'Har pal ek hi jagah — {count} yaadein aur ginti jaari.',
       back: 'Wapas chal',
     },
-    items: [
-      { type: 'image', src: '/assets/memory1.svg', caption: 'Day one of forever.', span: 'wide' },
-      { type: 'image', src: '/assets/memory2.svg', caption: 'Canteen council meeting.' },
-      {
-        type: 'video',
-        src: '/assets/memory-clip.mp4',
-        poster: '/assets/memory3.svg',
-        caption: 'Hostel anthem, unplugged.',
-      },
-      { type: 'image', src: '/assets/memory4.svg', caption: '3 AM, zero regrets.', span: 'tall' },
-      { type: 'image', src: '/assets/memory5.svg', caption: 'Last bench legends.' },
-      { type: 'image', src: '/assets/memory6.svg', caption: 'Bonfire & bad ideas.' },
-      { type: 'image', src: '/assets/memory7.svg', caption: 'Exam-week survivors.' },
-      { type: 'image', src: '/assets/memory8.svg', caption: 'Road trip detour.', span: 'wide' },
-      { type: 'image', src: '/assets/memory9.svg', caption: 'One last frame.' },
-    ],
+    // NOTE: the gallery shows ONLY real rows from the Supabase "memories"
+    // table (added via the admin panel). There are NO hardcoded/demo items.
   },
 
   // ──────────────────────────────────────────────────────────────────────────

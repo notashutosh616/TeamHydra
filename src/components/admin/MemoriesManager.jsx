@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { fetchMemoriesAdmin, addMemory, deleteMemory } from '../../lib/adminData'
+import { fetchMemoriesAdmin, addMemory, addYouTube, deleteMemory } from '../../lib/adminData'
 import { useAuth } from '../../lib/auth'
 
 function Note({ msg }) {
@@ -18,6 +18,10 @@ export default function MemoriesManager() {
   const [uploading, setUploading] = useState(false)
   const [msg, setMsg] = useState(null)
   const fileRef = useRef(null)
+  const [ytUrl, setYtUrl] = useState('')
+  const [ytCaption, setYtCaption] = useState('')
+  const [ytBusy, setYtBusy] = useState(false)
+  const [ytMsg, setYtMsg] = useState(null)
 
   const load = async () => {
     setLoading(true)
@@ -47,6 +51,22 @@ export default function MemoriesManager() {
       setMsg({ type: 'err', text: e.message || 'Upload failed' })
     }
     setUploading(false)
+  }
+
+  const onAddYouTube = async () => {
+    if (!ytUrl.trim() || ytBusy) return
+    setYtBusy(true)
+    setYtMsg(null)
+    try {
+      await addYouTube({ url: ytUrl, caption: ytCaption })
+      setYtMsg({ type: 'ok', text: 'YouTube video add ho gaya — public site pe live hai 🎬' })
+      setYtUrl('')
+      setYtCaption('')
+      await load()
+    } catch (e) {
+      setYtMsg({ type: 'err', text: e.message || 'Add failed' })
+    }
+    setYtBusy(false)
   }
 
   const onDelete = async (row) => {
@@ -110,6 +130,42 @@ export default function MemoriesManager() {
               <div className="h-full w-1/3 animate-[shimmer_1.2s_ease-in-out_infinite] rounded-full bg-gradient-to-r from-transparent via-ember to-transparent" />
             </div>
           )}
+        </div>
+      </div>
+
+      {/* YouTube card */}
+      <div className="glass rounded-3xl p-5 sm:p-6">
+        <h3 className="font-display text-lg font-bold text-ink">YouTube video add kar</h3>
+        <p className="mt-1 text-sm text-slatey">
+          Koi bhi normal YouTube link paste kar — watch, youtu.be, ya shorts. Embed code ki zaroorat nahi.
+        </p>
+        <div className="mt-4 flex flex-col gap-3">
+          <input
+            type="url"
+            value={ytUrl}
+            onChange={(e) => setYtUrl(e.target.value)}
+            placeholder="Paste YouTube link"
+            className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-ink placeholder:text-slatey/60 focus:border-ember/50 focus:outline-none"
+          />
+          <input
+            type="text"
+            value={ytCaption}
+            maxLength={120}
+            onChange={(e) => setYtCaption(e.target.value)}
+            placeholder="Caption (optional)"
+            className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-ink placeholder:text-slatey/60 focus:border-ember/50 focus:outline-none"
+          />
+          <div className="flex items-center justify-between gap-3">
+            <Note msg={ytMsg} />
+            <button
+              onClick={onAddYouTube}
+              disabled={!ytUrl.trim() || ytBusy}
+              className="relative ml-auto inline-flex items-center gap-2 overflow-hidden rounded-full px-6 py-2.5 text-sm font-bold text-midnight-900 shadow-ember disabled:opacity-50"
+            >
+              <span className="absolute inset-0 bg-gradient-to-r from-hydra to-ember" />
+              <span className="relative z-10">{ytBusy ? 'Adding…' : 'Add Video'}</span>
+            </button>
+          </div>
         </div>
       </div>
 

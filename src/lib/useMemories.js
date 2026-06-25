@@ -7,7 +7,7 @@ import { supabase, isSupabaseConfigured } from './supabase'
 function normalize(row) {
   return {
     id: row.id,
-    type: row.type === 'video' ? 'video' : 'image',
+    type: row.type === 'video' || row.type === 'youtube' ? row.type : 'image',
     src: row.src ?? row.url ?? row.media_url ?? '',
     poster: row.poster ?? row.thumbnail ?? null,
     caption: row.caption ?? '',

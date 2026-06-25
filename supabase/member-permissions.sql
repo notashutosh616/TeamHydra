@@ -10,11 +10,12 @@
 -- replace the old broad "any logged-in user can do anything" policy
 drop policy if exists "memories admin write" on public.memories;
 
--- INSERT: any logged-in user, but members may only add photos (type = 'image').
+-- INSERT: any logged-in user. Members may add photos + YouTube links
+-- (type 'image' or 'youtube'); only admins may add uploaded mp4 videos.
 drop policy if exists "memories insert authed" on public.memories;
 create policy "memories insert authed"
   on public.memories for insert to authenticated
-  with check (public.is_admin() or type = 'image');
+  with check (public.is_admin() or type in ('image', 'youtube'));
 
 -- UPDATE: admin only
 drop policy if exists "memories update admin" on public.memories;

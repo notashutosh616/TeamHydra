@@ -1,4 +1,5 @@
 import { supabase } from './supabase'
+import { youtubeId } from './youtube'
 
 export const BUCKET = 'hydra-media'
 export const AUDIO_BUCKET = 'hydra-audio'
@@ -45,6 +46,18 @@ export async function addMemory({ file, caption }) {
     await supabase.storage.from(BUCKET).remove([path]).catch(() => {})
     throw error
   }
+  return data
+}
+
+// Add an unlisted/normal YouTube video by pasting any YouTube link.
+export async function addYouTube({ url, caption }) {
+  const id = youtubeId(url)
+  if (!id) {
+    throw new Error('Yeh valid YouTube link nahi laga — watch?v=… , youtu.be/… ya shorts/… wala link daal.')
+  }
+  const row = { type: 'youtube', src: id, caption: caption?.trim() || null }
+  const { data, error } = await supabase.from('memories').insert(row).select().single()
+  if (error) throw error
   return data
 }
 
