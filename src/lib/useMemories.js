@@ -13,6 +13,8 @@ function normalize(row) {
     caption: row.caption ?? '',
     span: row.span ?? null,
     created_at: row.created_at ?? null,
+    is_visible: row.is_visible,
+    sort_order: row.sort_order ?? 0,
   }
 }
 
@@ -48,7 +50,10 @@ export function useMemories() {
         setError(dbError.message)
         setMemories([])
       } else {
-        setMemories((data ?? []).map(normalize))
+        // Public gallery shows only visible rows, in sort_order (asc).
+        const rows = (data ?? []).map(normalize).filter((r) => r.is_visible !== false)
+        rows.sort((a, b) => a.sort_order - b.sort_order)
+        setMemories(rows)
         setError(null)
       }
       setLoading(false)

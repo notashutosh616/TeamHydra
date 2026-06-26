@@ -61,11 +61,25 @@ export async function addYouTube({ url, caption }) {
   return data
 }
 
+export async function updateMemory(id, patch) {
+  // .select() so we can tell if the row was actually updated (0 rows = RLS
+  // blocked it / silently no-op) vs a hard error (e.g. missing column).
+  const { data, error } = await supabase.from('memories').update(patch).eq('id', id).select()
+  if (error) throw error
+  if (!data || data.length === 0) {
+    throw new Error('Save nahi hua — column missing ya RLS block. supabase/memory-order.sql chala.')
+  }
+  return data[0]
+}
+
 export async function deleteMemory(row) {
   const paths = [storagePathFromUrl(row.src), storagePathFromUrl(row.poster)].filter(Boolean)
   if (paths.length) await supabase.storage.from(BUCKET).remove(paths).catch(() => {})
-  const { error } = await supabase.from('memories').delete().eq('id', row.id)
+  const { data, error } = await supabase.from('memories').delete().eq('id', row.id).select()
   if (error) throw error
+  if (!data || data.length === 0) {
+    throw new Error('Delete block ho gaya (RLS) — sirf admin delete kar sakta hai.')
+  }
 }
 
 // ── Members ──────────────────────────────────────────────────────────────
