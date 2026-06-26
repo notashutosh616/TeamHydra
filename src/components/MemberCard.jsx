@@ -7,6 +7,7 @@ import {
   useMotionTemplate,
   useReducedMotion,
 } from 'framer-motion'
+import { content } from '../data/content'
 
 const EASE = [0.16, 1, 0.3, 1]
 
@@ -176,39 +177,31 @@ export default function MemberCard({ member, index }) {
 
             <p className="text-sm leading-relaxed text-slatey">{member.funnyLine}</p>
 
-            {/* Handwritten note that "writes itself" in on scroll */}
+            {/* Hydra Award — a fun trophy line (editable in content.js → crew.awards) */}
             <div
               className="relative rounded-2xl border border-dashed p-4"
               style={{ borderColor: `color-mix(in srgb, ${accent} 35%, transparent)`, background: `color-mix(in srgb, ${accent} 7%, transparent)` }}
             >
               <span
-                className="absolute -top-2.5 left-4 rounded-full bg-midnight-800 px-2 text-[10px] uppercase tracking-[0.2em]"
+                className="absolute -top-2.5 left-4 rounded-full bg-midnight-800 px-2 text-[10px] font-bold uppercase tracking-[0.2em]"
                 style={{ color: accent }}
               >
-                A note
+                {content.crew.awardLabel || 'Hydra Award 🏆'}
               </span>
-              <div className="relative overflow-hidden">
+              <div className="relative flex items-start gap-2 overflow-hidden">
+                <span className="shrink-0 text-2xl leading-none" aria-hidden="true">
+                  🏆
+                </span>
                 <motion.p
                   initial={reduce ? { clipPath: 'inset(0 0 0 0)' } : { clipPath: 'inset(0 100% 0 0)' }}
                   whileInView={{ clipPath: 'inset(0 0% 0 0)' }}
                   viewport={{ once: true, margin: '-40px' }}
-                  transition={{ duration: 1.6, ease: EASE, delay: 0.2 }}
-                  className="font-hand text-xl leading-snug text-ember-soft"
+                  transition={{ duration: 1.4, ease: EASE, delay: 0.2 }}
+                  className="font-hand text-xl leading-snug"
+                  style={{ color: accent }}
                 >
-                  {member.message}
+                  {content.crew.awards?.[member.nickname] || member.message || ''}
                 </motion.p>
-                {/* the "pen" ember glow that travels as it writes */}
-                {!reduce && (
-                  <motion.span
-                    aria-hidden
-                    className="absolute top-1/2 h-3 w-3 -translate-y-1/2 rounded-full"
-                    style={{ background: accent, boxShadow: `0 0 12px 3px ${accent}` }}
-                    initial={{ left: '0%', opacity: 0 }}
-                    whileInView={{ left: ['0%', '100%'], opacity: [0, 1, 1, 0] }}
-                    viewport={{ once: true, margin: '-40px' }}
-                    transition={{ duration: 1.6, ease: EASE, delay: 0.2 }}
-                  />
-                )}
               </div>
             </div>
           </div>

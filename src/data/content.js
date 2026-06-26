@@ -53,6 +53,17 @@ export const content = {
     kicker: 'Apni toli',
     heading: 'Apni Mandli 🐍',
     subheading: 'Paanch log, ek hi braincell pe chalte hain. Inse milo — risk tumhaara.',
+    // 🏆 HYDRA AWARDS — the funny award title shown on each member card.
+    //    Keyed by the member's nickname. Edit these freely.
+    awardLabel: 'Hydra Award 🏆',
+    awards: {
+      Dhongi: "Crime karke sabse pehle 'main toh tha hi nahi' bolne wala",
+      Bihari: 'Bina matlab ke argument jeetne ka national champion',
+      Bhabhora: 'Apne hi haath me phone dhoondhne wala mahapurush',
+      Dhote: 'Bill aate hi gayab hone wala jaadugar',
+      Suzzi: 'Doston se zyada khaane se pyaar karne wala',
+    },
+
     members: [
       {
         id: 'ashutosh',
